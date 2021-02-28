@@ -17,9 +17,6 @@ namespace DBBackup
     {
         private static string bucketName;
         private static IAmazonS3 s3Client;
-        private static string DB_HOST;
-        private static string DB_USER;
-        private static string DB_USER_PASSWORD;
         private static string awsAccessKeyId;
         private static string awsSecretAccessKey;
 
@@ -29,7 +26,7 @@ namespace DBBackup
         {
             DBAccess DBLogger = new DBAccess();
 
-            initializeConfig();
+            InitializeConfig();
 
             DBLogger.createLog("initializeConfig completed");
 
@@ -101,9 +98,11 @@ namespace DBBackup
 
                 DBLogger.createLog($"Deleting the following files");
             }
+
+            DBLogger.createLog($"Finished DB Back Process");
         }
 
-        public static void initializeConfig()
+        public static void InitializeConfig()
         {
             configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
@@ -112,9 +111,6 @@ namespace DBBackup
             bucketName = configuration.GetSection("AppSettings")["bucketName"];
             awsAccessKeyId = configuration.GetSection("AppSettings")["awsAccessKeyId"];
             awsSecretAccessKey = configuration.GetSection("AppSettings")["awsSecretAccessKey"];
-            DB_HOST = configuration.GetSection("DatabaseParams")["DB_HOST"];
-            DB_USER = configuration.GetSection("DatabaseParams")["DB_USER"];
-            DB_USER_PASSWORD = configuration.GetSection("DatabaseParams")["DB_USER_PASSWORD"];
         }
     }
 }
